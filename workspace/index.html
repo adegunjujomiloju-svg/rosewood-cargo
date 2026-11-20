@@ -1,0 +1,1395 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rosewood Cargo Service | Moving Beyond Borders</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #090510;
+    --purple: #8b35ed;
+    --light-purple: #c084fc;
+    --pink: #e879f9;
+    --white: #ffffff;
+    --muted: #b9acc8;
+    --panel: rgba(255,255,255,.055);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button, input, textarea {
+    font: inherit;
+}
+
+/* BACKGROUND EFFECTS */
+
+.background-glow {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(130px);
+    opacity: .24;
+    animation: floatGlow 12s ease-in-out infinite alternate;
+}
+
+.glow.one {
+    background: #8b35ed;
+    top: -200px;
+    left: -150px;
+}
+
+.glow.two {
+    background: #d946ef;
+    right: -200px;
+    top: 35%;
+    animation-delay: -5s;
+}
+
+.glow.three {
+    background: #4f46e5;
+    bottom: -250px;
+    left: 30%;
+    animation-delay: -8s;
+}
+
+@keyframes floatGlow {
+    from { transform: translate(0,0) scale(1); }
+    to { transform: translate(100px,80px) scale(1.35); }
+}
+
+.noise {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* SCROLL PROGRESS */
+
+.progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, #8b35ed, #e879f9, #fff);
+    z-index: 9999;
+}
+
+/* NAVIGATION */
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 18px 7%;
+    transition: .4s;
+}
+
+header.scrolled {
+    background: rgba(9,5,16,.85);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 22px;
+}
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    box-shadow: 0 0 25px #8b35ed66;
+}
+
+.logo small {
+    display: block;
+    color: var(--light-purple);
+    font-size: 9px;
+    letter-spacing: 3px;
+    font-weight: 600;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: #d6cce2;
+    font-size: 13px;
+    transition: .3s;
+}
+
+.nav-links a:hover {
+    color: var(--light-purple);
+}
+
+.nav-contact {
+    padding: 12px 22px;
+    background: linear-gradient(120deg, #9333ea, #c026d3);
+    border-radius: 30px;
+    color: white !important;
+}
+
+.menu-btn {
+    display: none;
+    background: none;
+    color: white;
+    border: 0;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+/* HERO */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 150px 8% 90px;
+    overflow: hidden;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, #090510 5%, rgba(9,5,16,.88) 42%, rgba(9,5,16,.3) 100%),
+      linear-gradient(0deg, #090510 0%, transparent 40%),
+      url("https://images.unsplash.com/photo-1494412519320-aa613dfb7738?auto=format&fit=crop&w=2000&q=85") center/cover;
+    animation: heroZoom 18s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+.hero-content {
+    max-width: 750px;
+    animation: heroEnter 1.2s ease both;
+}
+
+@keyframes heroEnter {
+    from { opacity: 0; transform: translateY(45px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #d8b4fe;
+    border: 1px solid #a855f755;
+    background: #8b35ed18;
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+}
+
+.eyebrow span {
+    width: 7px;
+    height: 7px;
+    background: #d8b4fe;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #d8b4fe;
+}
+
+.hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(45px, 7vw, 88px);
+    line-height: 1.03;
+    font-weight: 800;
+    letter-spacing: -3px;
+    margin-bottom: 25px;
+}
+
+.gradient-text {
+    background: linear-gradient(100deg, #c084fc, #f0abfc, #a78bfa, #c084fc);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientMove 5s linear infinite;
+}
+
+@keyframes gradientMove {
+    to { background-position: 250% center; }
+}
+
+.hero p {
+    color: #c8bdd4;
+    line-height: 1.9;
+    font-size: 16px;
+    max-width: 560px;
+    margin-bottom: 35px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 25px;
+    border-radius: 40px;
+    font-weight: 700;
+    font-size: 13px;
+    transition: .35s;
+}
+
+.btn-primary {
+    background: linear-gradient(110deg, #9333ea, #c026d3);
+    box-shadow: 0 10px 35px #9333ea55;
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 45px #9333ea88;
+}
+
+.btn-outline {
+    border: 1px solid #ffffff55;
+    background: #ffffff0b;
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline:hover {
+    background: #ffffff20;
+    transform: translateY(-5px);
+}
+
+.hero-note {
+    margin-top: 65px;
+    color: #a99bb8;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+/* GENERAL SECTIONS */
+
+section {
+    padding: 115px 8%;
+    position: relative;
+}
+
+.section-heading {
+    max-width: 700px;
+    margin-bottom: 55px;
+}
+
+.section-label {
+    color: #c084fc;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 17px;
+    font-weight: 700;
+}
+
+.section-heading h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(34px, 5vw, 58px);
+    line-height: 1.12;
+    letter-spacing: -1.5px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    line-height: 1.9;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* ABOUT SECTION */
+
+.about {
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 10% 40%, #8b35ed25, transparent 45%),
+      radial-gradient(ellipse at 90% 70%, #d946ef18, transparent 40%),
+      linear-gradient(135deg, #10091c, #170b27, #0d0717);
+}
+
+.about::before {
+    content: "";
+    position: absolute;
+    width: 550px;
+    height: 550px;
+    border: 1px solid #c084fc18;
+    border-radius: 50%;
+    right: -180px;
+    top: 10%;
+    box-shadow: 0 0 100px #9333ea18;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 75px;
+}
+
+.about-image {
+    min-height: 480px;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #c084fc44;
+    box-shadow: 0 25px 90px #0008;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    min-height: 480px;
+    object-fit: cover;
+    transition: transform 1.2s;
+}
+
+.about-image:hover img {
+    transform: scale(1.08);
+}
+
+.about-image::after {
+    content: "MOVING BEYOND BORDERS";
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    color: white;
+    letter-spacing: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    text-shadow: 0 2px 10px black;
+}
+
+.about-copy p {
+    color: #c7b9d5;
+    line-height: 2;
+    font-size: 14px;
+    margin: 23px 0;
+}
+
+.about-points {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.point {
+    border-left: 2px solid #a855f7;
+    padding: 12px 15px;
+    background: #ffffff08;
+    border-radius: 0 12px 12px 0;
+}
+
+.point strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.point span {
+    font-size: 11px;
+    color: #b9acc8;
+}
+
+/* SERVICES */
+
+.services {
+    background: linear-gradient(180deg, #090510, #10091b, #090510);
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.service-card {
+    padding: 35px 28px;
+    border: 1px solid #ffffff12;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff0c, #ffffff03);
+    backdrop-filter: blur(12px);
+    transition: .4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(130deg, #9333ea22, transparent 55%, #d946ef12);
+    opacity: 0;
+    transition: .4s;
+}
+
+.service-card:hover {
+    transform: translateY(-12px);
+    border-color: #c084fc77;
+    box-shadow: 0 20px 60px #9333ea20;
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+.service-icon {
+    width: 55px;
+    height: 55px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #9333ea, #6d28d9);
+    border-radius: 16px;
+    font-size: 23px;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 25px #9333ea44;
+    position: relative;
+}
+
+.service-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px;
+    margin-bottom: 13px;
+    position: relative;
+}
+
+.service-card p {
+    color: #b9acc8;
+    font-size: 13px;
+    line-height: 1.8;
+    position: relative;
+}
+
+/* CINEMATIC BANNER */
+
+.banner {
+    padding: 120px 8%;
+    text-align: center;
+    background:
+      linear-gradient(90deg, #160724d9, #4c1685aa, #160724d9),
+      url("https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1800&q=85") center/cover fixed;
+    overflow: hidden;
+}
+
+.banner h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(35px, 5vw, 65px);
+    max-width: 850px;
+    margin: 0 auto 20px;
+}
+
+.banner p {
+    color: #e2d4f1;
+    max-width: 600px;
+    margin: auto auto 30px;
+    line-height: 1.8;
+}
+
+/* WHY CHOOSE US */
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.why-card {
+    padding: 30px;
+    border-radius: 18px;
+    background: #ffffff08;
+    border: 1px solid #ffffff12;
+    transition: .35s;
+}
+
+.why-card:hover {
+    background: #8b35ed18;
+    transform: translateY(-7px);
+}
+
+.why-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 18px;
+    margin: 15px 0 10px;
+}
+
+.why-card p {
+    font-size: 13px;
+    color: #b9acc8;
+    line-height: 1.8;
+}
+
+.why-icon {
+    font-size: 27px;
+}
+
+/* PROCESS */
+
+.process {
+    background: linear-gradient(135deg, #10091c, #180b27, #0c0614);
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.process-card {
+    padding: 25px;
+    border-top: 1px solid #a855f766;
+    background: #ffffff08;
+    border-radius: 0 0 16px 16px;
+}
+
+.process-card span {
+    font-family: 'Outfit', sans-serif;
+    font-size: 35px;
+    color: #c084fc;
+    font-weight: 800;
+}
+
+.process-card h3 {
+    margin: 15px 0 10px;
+    font-size: 16px;
+}
+
+.process-card p {
+    color: #b9acc8;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* CONTACT */
+
+.contact {
+    background:
+      radial-gradient(ellipse at 50% 0%, #9333ea25, transparent 55%),
+      #090510;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: .9fr 1.1fr;
+    gap: 55px;
+}
+
+.contact-info p {
+    color: #b9acc8;
+    line-height: 1.9;
+    font-size: 14px;
+    margin: 20px 0 30px;
+}
+
+.contact-item {
+    display: flex;
+    gap: 15px;
+    margin: 23px 0;
+    align-items: flex-start;
+}
+
+.contact-item .icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #9333ea22;
+    color: #d8b4fe;
+    flex-shrink: 0;
+}
+
+.contact-item strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.contact-item span, .contact-item a {
+    color: #b9acc8;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.contact-form {
+    padding: 35px;
+    border: 1px solid #ffffff15;
+    border-radius: 22px;
+    background: #ffffff08;
+    backdrop-filter: blur(15px);
+}
+
+.contact-form h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 25px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    color: #d9cce6;
+    margin-bottom: 9px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ffffff18;
+    border-radius: 10px;
+    background: #090510;
+    color: white;
+    outline: none;
+    transition: .3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #a855f7;
+    box-shadow: 0 0 0 3px #9333ea20;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.contact-form button {
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 40px 8%;
+    background: #06030b;
+    border-top: 1px solid #ffffff12;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+footer p {
+    font-size: 11px;
+    color: #9b8ca9;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+    color: #c4b5d0;
+}
+
+/* FLOATING WHATSAPP */
+
+.whatsapp-float {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 900;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #25d366;
+    color: white;
+    font-size: 27px;
+    box-shadow: 0 8px 30px #25d36655;
+    transition: .3s;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.12);
+}
+
+/* SCROLL REVEAL */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(55px);
+    transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-55px);
+    transition: .9s ease;
+}
+
+.reveal-left.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(55px);
+    transition: .9s ease;
+}
+
+.reveal-right.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* MOBILE */
+
+@media(max-width: 900px) {
+    .about-grid, .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-grid, .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-image {
+        min-height: 350px;
+    }
+
+    .about-image img {
+        min-height: 350px;
+    }
+}
+
+@media(max-width: 700px) {
+    header {
+        padding: 15px 5%;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 75px;
+        left: 5%;
+        right: 5%;
+        padding: 25px;
+        background: rgba(15,7,25,.97);
+        backdrop-filter: blur(20px);
+        border: 1px solid #ffffff18;
+        border-radius: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 22px;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .nav-contact {
+        text-align: center;
+    }
+
+    .hero {
+        padding: 140px 6% 70px;
+        min-height: 90vh;
+    }
+
+    .hero h1 {
+        letter-spacing: -1.5px;
+    }
+
+    section {
+        padding: 85px 6%;
+    }
+
+    .service-grid, .why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .about-points {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form {
+        padding: 25px 18px;
+    }
+
+    .banner {
+        background-attachment: scroll;
+        padding: 90px 6%;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+
+    .reveal, .reveal-left, .reveal-right {
+        opacity: 1;
+        transform: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="background-glow">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+    <div class="glow three"></div>
+</div>
+<div class="noise"></div>
+
+<header id="header">
+    <nav>
+        <a href="#home" class="logo">
+            <div class="logo-icon">🚚</div>
+            <div>
+                ROSEWOOD
+                <small>CARGO SERVICE</small>
+            </div>
+        </a>
+
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#why">Why Rosewood</a>
+            <a href="#contact" class="nav-contact">Contact Us ↗</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-image"></div>
+
+    <div class="hero-content">
+        <div class="eyebrow"><span></span> YOUR CARGO. OUR PRIORITY.</div>
+
+        <h1>
+            Moving Your World,
+            <span class="gradient-text">Beyond Borders.</span>
+        </h1>
+
+        <p>
+            Welcome to Rosewood Cargo Service. We are focused on connecting
+            people and businesses through cargo and logistics solutions.
+            Wherever your journey takes you, let's move forward together.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#contact" class="btn btn-primary">Get In Touch ↗</a>
+            <a href="#about" class="btn btn-outline">Discover Rosewood ↓</a>
+        </div>
+
+        <div class="hero-note">LAGOS, NIGERIA · CONNECTING TO THE WORLD</div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="about-grid">
+
+        <div class="about-image reveal-left">
+            <img
+                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1000&q=85"
+                alt="Cargo and logistics warehouse">
+        </div>
+
+        <div class="about-copy reveal-right">
+            <div class="section-label">WHO WE ARE</div>
+
+            <h2 class="section-heading">
+                More Than Cargo.
+                <span class="gradient-text">We're Your Connection.</span>
+            </h2>
+
+            <p>
+                Rosewood Cargo Service is a cargo and logistics brand based
+                in Ikorodu, Lagos, Nigeria. We aim to make moving goods
+                easier through dependable service and customer-focused
+                communication.
+            </p>
+
+            <p>
+                We believe every shipment matters. That's why our goal is
+                to provide a professional experience from the first
+                conversation to the delivery process.
+            </p>
+
+            <div class="about-points">
+                <div class="point">
+                    <strong>Our Mission</strong>
+                    <span>To serve customers with care and commitment.</span>
+                </div>
+
+                <div class="point">
+                    <strong>Our Vision</strong>
+                    <span>To build lasting connections beyond borders.</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="section-heading reveal">
+        <div class="section-label">WHAT WE DO</div>
+        <h2>Logistics That Keep <span class="gradient-text">You Moving.</span></h2>
+        <p>
+            Explore the cargo and logistics services offered by Rosewood.
+            Contact our team to confirm available routes and service details.
+        </p>
+    </div>
+
+    <div class="service-grid">
+
+        <div class="service-card reveal">
+            <div class="service-icon">✈️</div>
+            <h3>Air Cargo</h3>
+            <p>Air freight solutions for shipments that require air transportation.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">🚢</div>
+            <h3>Sea Cargo</h3>
+            <p>Sea freight options for cargo moving through international shipping routes.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">🚛</div>
+            <h3>Road Cargo</h3>
+            <p>Road transportation solutions for moving goods between locations.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">📦</div>
+            <h3>Goods Handling</h3>
+            <p>Support with the handling and movement of goods throughout the cargo process.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">🌍</div>
+            <h3>International Shipping</h3>
+            <p>Shipping support for customers moving cargo across borders.</p>
+        </div>
+
+        <div class="service-card reveal">
+            <div class="service-icon">🏢</div>
+            <h3>Business Logistics</h3>
+            <p>Logistics support for businesses with cargo and transportation needs.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CINEMATIC BANNER -->
+<section class="banner">
+    <div class="reveal">
+        <div class="section-label">THE ROSEWOOD EXPERIENCE</div>
+        <h2>Every Journey Deserves <span class="gradient-text">A Better Connection.</span></h2>
+        <p>
+            From Lagos to destinations beyond, let's make your next cargo
+            journey a conversation worth starting.
+        </p>
+        <a href="#contact" class="btn btn-primary">Talk To Our Team ↗</a>
+    </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section id="why">
+    <div class="section-heading reveal">
+        <div class="section-label">WHY ROSEWOOD</div>
+        <h2>A Name You Can <span class="gradient-text">Connect With.</span></h2>
+        <p>
+            We want every customer to feel informed, valued and supported
+            throughout their experience with us.
+        </p>
+    </div>
+
+    <div class="why-grid">
+        <div class="why-card reveal">
+            <div class="why-icon">🤝</div>
+            <h3>Customer Focus</h3>
+            <p>We put communication and customer experience at the centre of our approach.</p>
+        </div>
+
+        <div class="why-card reveal">
+            <div class="why-icon">🌐</div>
+            <h3>Global Connections</h3>
+            <p>Our brand is built around connecting customers and cargo across borders.</p>
+        </div>
+
+        <div class="why-card reveal">
+            <div class="why-icon">💜</div>
+            <h3>Personal Service</h3>
+            <p>We believe every customer and every shipment deserves attention.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+    <div class="section-heading reveal">
+        <div class="section-label">GETTING STARTED</div>
+        <h2>Your Journey Starts <span class="gradient-text">Right Here.</span></h2>
+        <p>Reach out to Rosewood and start a conversation about your cargo needs.</p>
+    </div>
+
+    <div class="process-grid">
+        <div class="process-card reveal">
+            <span>01</span>
+            <h3>Contact Us</h3>
+            <p>Reach our team through WhatsApp or email.</p>
+        </div>
+
+        <div class="process-card reveal">
+            <span>02</span>
+            <h3>Share Details</h3>
+            <p>Tell us what you need to ship and where it is going.</p>
+        </div>
+
+        <div class="process-card reveal">
+            <span>03</span>
+            <h3>Discuss Options</h3>
+            <p>Confirm the available service, route and requirements with our team.</p>
+        </div>
+
+        <div class="process-card reveal">
+            <span>04</span>
+            <h3>Move Forward</h3>
+            <p>Proceed with the agreed cargo arrangements.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <div class="section-heading reveal">
+        <div class="section-label">LET'S TALK</div>
+        <h2>Ready To Move <span class="gradient-text">With Rosewood?</span></h2>
+        <p>Have a question or cargo enquiry? Reach out to our team.</p>
+    </div>
+
+    <div class="contact-grid">
+
+        <div class="contact-info reveal-left">
+            <h2 class="gradient-text" style="font-family:Outfit;font-size:32px;">
+                Get In Touch
+            </h2>
+
+            <p>
+                Our team is ready to hear from you. Choose your preferred
+                contact option and let's discuss your cargo needs.
+            </p>
+
+            <div class="contact-item">
+                <div class="icon">📍</div>
+                <div>
+                    <strong>Our Location</strong>
+                    <span>13, Ibeshe Road, Opp. Oando Petrol Station,<br>Ikorodu, Lagos, Nigeria.</span>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="icon">🇳🇬</div>
+                <div>
+                    <strong>Nigeria Contact</strong>
+                    <a href="tel:+2348083729324">08083729324</a>
+                    <br>
+                    <a href="https://wa.me/2348083729324" target="_blank" rel="noopener">
+                        WhatsApp Nigeria ↗
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="icon">🇬🇧</div>
+                <div>
+                    <strong>United Kingdom Contact</strong>
+                    <a href="tel:+447301711097">+44 7301 711097</a>
+                    <br>
+                    <a href="https://wa.me/447301711097" target="_blank" rel="noopener">
+                        WhatsApp UK ↗
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="icon">✉️</div>
+                <div>
+                    <strong>Email Address</strong>
+                    <a href="mailto:rosewoodresoursescb1010@gmail.com">
+                        rosewoodresoursescb1010@gmail.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="icon">📸</div>
+                <div>
+                    <strong>Instagram</strong>
+                    <a href="https://www.instagram.com/Rosewoodcargo/" target="_blank" rel="noopener">
+                        @Rosewoodcargo ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <form class="contact-form reveal-right" id="contactForm">
+            <h3>Send An Enquiry</h3>
+
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Your Message</label>
+                <textarea id="message" placeholder="Tell us about your cargo enquiry..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Send Via WhatsApp ↗
+            </button>
+        </form>
+
+    </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <a href="#home" class="logo">
+            <div class="logo-icon">🚚</div>
+            <div>
+                ROSEWOOD
+                <small>CARGO SERVICE</small>
+            </div>
+        </a>
+
+        <p>© <span id="year"></span> Rosewood Cargo Service. All rights reserved.</p>
+
+        <div class="footer-links">
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<!-- FLOATING WHATSAPP -->
+<a class="whatsapp-float"
+   href="https://wa.me/447301711097"
+   target="_blank"
+   rel="noopener"
+   aria-label="Chat with Rosewood on WhatsApp">
+    ☎
+</a>
+
+<script>
+// MOBILE MENU
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    menuBtn.textContent = navLinks.classList.contains("active") ? "✕" : "☰";
+});
+
+// CLOSE MOBILE MENU AFTER CLICK
+document.querySelectorAll(".nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        menuBtn.textContent = "☰";
+    });
+});
+
+// HEADER BACKGROUND ON SCROLL
+const header = document.getElementById("header");
+
+window.addEventListener("scroll", () => {
+    header.classList.toggle("scrolled", window.scrollY > 50);
+});
+
+// SCROLL PROGRESS BAR
+window.addEventListener("scroll", () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+    const progress = scrollHeight > 0
+        ? (scrollTop / scrollHeight) * 100
+        : 0;
+
+    document.getElementById("progress").style.width = progress + "%";
+});
+
+// CINEMATIC SCROLL REVEAL
+const revealElements = document.querySelectorAll(
+    ".reveal, .reveal-left, .reveal-right"
+);
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    threshold: 0.12
+});
+
+revealElements.forEach(element => observer.observe(element));
+
+// CONTACT FORM OPENS WHATSAPP
+document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    const whatsappMessage =
+        `Hello Rosewood Cargo Service!\n\n` +
+        `My name is ${name}.\n` +
+        `My email is ${email}.\n\n` +
+        `Enquiry: ${message}`;
+
+    const whatsappURL =
+        "https://wa.me/447301711097?text=" +
+        encodeURIComponent(whatsappMessage);
+
+    window.open(whatsappURL, "_blank", "noopener");
+});
+
+// AUTOMATIC FOOTER YEAR
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
